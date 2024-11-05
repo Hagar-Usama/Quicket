@@ -25,7 +25,7 @@ development:
   database: quicket_development
   username: postgres
   password: password123
-  host: db
+  host: localhost # db if running with docker compse
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
