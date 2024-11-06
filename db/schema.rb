@@ -35,7 +35,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_05_020252) do
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.string "name"
-    t.string "role"
+    t.string "role", default: "regular"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "confirmation_token"

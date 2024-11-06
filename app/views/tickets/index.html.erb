@@ -1,4 +1,4 @@
-<h1>Tickets#index</h1>
+<h1>Tickets</h1>
 <p>Find me in app/views/tickets/index.html.erb</p>
 
 <% if @tickets.any? %>
@@ -9,6 +9,9 @@
         <th>Name</th>
         <th>Email</th>
         <th>State</th>
+        <% if current_user.admin? %>
+          <th>Actions</th>
+        <% end %>
       </tr>
     </thead>
     <tbody>
@@ -18,10 +21,26 @@
           <td><%= ticket.name %></td> <!-- Displaying the name of the ticket -->
           <td><%= ticket.email %></td> <!-- Displaying the email associated with the ticket -->
           <td><%= ticket.state %></td> <!-- Displaying the state of the ticket -->
+          <% if current_user.admin? %>
+            <td>
+              <%= link_to 'Edit', edit_ticket_path(ticket) %> | 
+              <%= link_to 'Delete', ticket_path(ticket), method: :delete, data: { confirm: 'Are you sure?' } %>
+            </td>
+          <% end %>
         </tr>
       <% end %>
     </tbody>
   </table>
+
+  <% if current_user.admin? %>
+    <p><%= link_to 'Create New Ticket', new_ticket_path %></p> <!-- Link to create a new ticket -->
+  <% end %>
+
 <% else %>
   <p>No tickets found.</p>
+<% end %>
+
+<!-- Notification for role confirmation -->
+<% if flash[:role_notice] %>
+  <div class="notice"><%= flash[:role_notice] %></div>
 <% end %>

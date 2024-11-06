@@ -3,7 +3,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable
 
-  enum role: { regular: 0, admin: 1 }
+  enum role: { regular: 'regular', admin: 'admin' }
 
   has_many :tickets, dependent: :destroy
 
