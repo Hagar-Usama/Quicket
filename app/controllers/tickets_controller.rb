@@ -1,6 +1,6 @@
 class TicketsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_ticket, only: [:show, :update]
+  before_action :set_ticket, only: [ :show, :update ]
 
   def index
     if current_user.admin?
@@ -13,7 +13,6 @@ class TicketsController < ApplicationController
   end
 
   def show
-
   end
 
   def update
@@ -24,6 +23,11 @@ class TicketsController < ApplicationController
       flash[:alert] = "Failed to mark ticket as deleted."
       render :show
     end
+  end
+
+  def fetch_tickets
+    TicketService.fetch_and_create_tickets(current_user)
+    redirect_to tickets_path, notice: "Tickets fetched successfully."
   end
 
   private

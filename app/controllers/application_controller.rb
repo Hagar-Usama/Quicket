@@ -9,7 +9,12 @@ class ApplicationController < ActionController::Base
   protected
 
   def after_sign_in_path_for(resource)
-    
+    # Fetch and create tickets after sign-in
+    # debugger
+    # TicketService.fetch_and_create_tickets(resource)
+  end
+
+  def after_sign_in_path_for(resource)
     flash[:role_notice] = "You are signed in as #{resource.role.humanize}."
     tickets_path
   end

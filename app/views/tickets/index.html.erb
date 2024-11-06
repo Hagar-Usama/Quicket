@@ -1,6 +1,8 @@
 <h1>Tickets</h1>
 <p>Find me in app/views/tickets/index.html.erb</p>
 
+<%= button_to 'Fetch Tickets', fetch_tickets_tickets_path, method: :post, class: 'btn btn-primary' %>
+
 <% if @tickets.any? %>
   <table>
     <thead>
@@ -18,12 +20,12 @@
       <% @tickets.each do |ticket| %>
         <tr>
           <td><%= ticket.id %></td>
-          <td><%= ticket.name %></td> <!-- Displaying the name of the ticket -->
-          <td><%= ticket.email %></td> <!-- Displaying the email associated with the ticket -->
-          <td><%= ticket.state %></td> <!-- Displaying the state of the ticket -->
+          <td><%= ticket.name %></td> 
+          <td><%= ticket.email %></td>
+          <td><%= ticket.state %></td>
           <% if current_user.admin? %>
             <td>
-              <%= link_to 'Edit', edit_ticket_path(ticket) %> | 
+              <%# <%= link_to 'Edit', edit_ticket_path(ticket) |  %> 
               <%= link_to 'Delete', ticket_path(ticket), method: :delete, data: { confirm: 'Are you sure?' } %>
             </td>
           <% end %>
@@ -32,9 +34,6 @@
     </tbody>
   </table>
 
-  <% if current_user.admin? %>
-    <p><%= link_to 'Create New Ticket', new_ticket_path %></p> <!-- Link to create a new ticket -->
-  <% end %>
 
 <% else %>
   <p>No tickets found.</p>

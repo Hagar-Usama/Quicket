@@ -1,7 +1,7 @@
 # Rails.application.routes.draw do
-  # get "tickets/index"
-  # get "tickets/show"
-  # get "tickets/update"
+# get "tickets/index"
+# get "tickets/show"
+# get "tickets/update"
 #   devise_for :users
 #   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -17,11 +17,13 @@
 #   # root "posts#index"
 # end
 
-
 Rails.application.routes.draw do
   devise_for :users
-  
-  resources :tickets, only: [:index, :show, :update]
+  resources :tickets, only: [ :index, :show, :update ] do
+    collection do
+      post :fetch_tickets
+    end
+  end
 
   root to: "tickets#index"
 end

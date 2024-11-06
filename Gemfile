@@ -19,7 +19,8 @@ gem "jbuilder"
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
-gem 'devise'
+gem "devise"
+gem "httparty"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -45,6 +46,10 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # debugging
+  gem "debase", "~> 0.2.1"
+  gem "ruby-debug-ide"
 end
 
 group :development do
