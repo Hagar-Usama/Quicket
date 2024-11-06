@@ -23,5 +23,5 @@ Rails.application.routes.draw do
   
   resources :tickets, only: [:index, :show, :update]
 
-  root to: "home#index"
+  root to: "tickets#index"
 end
