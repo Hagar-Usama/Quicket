@@ -26,7 +26,7 @@ class TicketsController < ApplicationController
   end
 
   def fetch_tickets
-    TicketService.fetch_and_create_tickets(current_user)
+    TicketService.fetch_and_save_tickets(current_user)
     redirect_to tickets_path, notice: "Tickets fetched successfully."
   end
 

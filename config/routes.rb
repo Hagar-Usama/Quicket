@@ -25,5 +25,7 @@ Rails.application.routes.draw do
     end
   end
 
+  post "webhooks/tito", to: "webhooks#tito"
+
   root to: "tickets#index"
 end
