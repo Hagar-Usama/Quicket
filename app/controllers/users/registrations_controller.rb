@@ -6,16 +6,39 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    # add logger
-    Rails.logger.info("User registration params: #{sign_up_params}")
-    # Check if a ticket exists with the provided email
-    if Ticket.exists?(email: sign_up_params[:email])
-      super # Proceed with the regular Devise registration process if a ticket exists
+    email = sign_up_params[:email]
+    ticket = Ticket.find_by(email: email)
+    if ticket
+      ActiveRecord::Base.transaction do
+        super do |user|
+          user.save!
+          ticket.update!(user_id: user.id)
+        end
+      end
     else
-      # Redirect with an error if no ticket is found for the given email
+      # If no ticket is found, redirect with an error message
       redirect_to new_user_registration_path, alert: "No ticket found with this email. Please contact support or use a different email."
     end
   end
+
+
+
+  # def create
+  #   email = sign_up_params[:email]
+
+  #   # Find the ticket by email (this is done directly in the controller, no API calls)
+  #   ticket = Ticket.find_by(email: email)
+
+  #   if ticket
+  #     super do |user|
+  #       # user.id = ticket.user_id
+  #       user.save if user.valid?
+  #     end
+  #   else
+  #     # If no ticket is found, redirect with an error message
+  #     redirect_to new_user_registration_path, alert: "No ticket found with this email. Please contact support or use a different email."
+  #   end
+  # end
 
   private
 
