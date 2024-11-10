@@ -18,14 +18,24 @@
 # end
 
 Rails.application.routes.draw do
-  devise_for :users
+  # Devise routes for user authentication
+  devise_for :users, controllers: {
+    sessions: "users/sessions",
+    registrations: "users/registrations"
+
+  }
+
+  # Routes for tickets
   resources :tickets, only: [ :index, :show, :update ] do
     collection do
       post :fetch_tickets
+      get :ticket_exists
     end
   end
 
+  # Webhook route
   post "webhooks/tito", to: "webhooks#tito"
 
+  # Root route
   root to: "tickets#index"
 end

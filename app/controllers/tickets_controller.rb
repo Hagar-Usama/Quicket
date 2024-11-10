@@ -1,6 +1,13 @@
 class TicketsController < ApplicationController
+  skip_before_action :authenticate_user!, only: [ :ticket_exists? ]
   before_action :authenticate_user!
   before_action :set_ticket, only: [ :show, :update ]
+
+  def ticket_exists?
+    email = params[:email]
+    exists = Ticket.exists?(email: email)
+    render json: { exists: exists }
+  end
 
   def index
     if current_user.admin?
