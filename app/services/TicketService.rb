@@ -2,9 +2,10 @@
 class TicketService
     include HTTParty
     base_uri "https://api.tito.io/v3/hagar-usama/delta-spectres"
+
     def self.fetch_and_save_tickets(user)
       Rails.logger.error("[TicketService] fetching tickets ...")
-      debugger
+      # debugger
 
       token = Rails.application.credentials.dig(:api, :token)
       response = get("/tickets", headers: { "Authorization" => "Token token=#{token}" })
@@ -20,10 +21,29 @@ class TicketService
       end
     end
 
+    def self.ticket_exists?(email)
+      token = Rails.application.credentials.dig(:api, :token)
+      response = get("/tickets", headers: { "Authorization" => "Token token=#{token}" }, query: { "search[emails][]" => email })
+      if response.success?
+        data = response.parsed_response
+
+        # Check if tickets exist in the response
+        tickets = data["tickets"]
+        if tickets && tickets.any?
+          { exists: true }
+        else
+          { exists: false }
+        end
+      else
+        Rails.logger.error("TicketService Error: #{response.message}")
+        { exists: false }
+      end
+    end
+
     def self.save_ticket(ticket_data, user_id)
       ## TODO: get back to this, invalid user_id
       ticket = Ticket.find_or_initialize_by(id: ticket_data["id"]) do |t|
-        t.user_id = user_id
+        # t.user_id = user_id
       end
 
       ticket.assign_attributes(

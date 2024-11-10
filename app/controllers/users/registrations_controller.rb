@@ -7,17 +7,31 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     email = sign_up_params[:email]
-    ticket = Ticket.find_by(email: email)
-    if ticket
-      ActiveRecord::Base.transaction do
-        super do |user|
-          user.save!
-          ticket.update!(user_id: user.id)
+    # Call the TicketService to check for an external ticket
+    ticket_service_response = TicketService.ticket_exists?(email)
+
+    if ticket_service_response[:exists]
+      # bring all local tickets to user and assign it to the user
+      tickets = Ticket.where(email: email)
+      if tickets.any?
+        ActiveRecord::Base.transaction do
+          super do |user|
+            # Attach all tickets to the new user
+            user.tickets << tickets
+            if user.valid?
+              user.save!
+              Rails.logger.info("Successfully attached #{tickets.size} tickets to user #{user.id}")
+              # render a message
+              flash[:notice] = "Successfully user #{user.id} signed in"
+            else
+              raise ActiveRecord::Rollback, "User creation failed, tickets not attached"
+            end
+          end
         end
+      else
+        # If no tickets are found, redirect with an error message
+        redirect_to new_user_registration_path, alert: "No tickets found with this email. Please contact support or use a different email."
       end
-    else
-      # If no ticket is found, redirect with an error message
-      redirect_to new_user_registration_path, alert: "No ticket found with this email. Please contact support or use a different email."
     end
   end
 
