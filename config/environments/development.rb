@@ -35,13 +35,45 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
-
+  # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
   # Disable caching for Action Mailer templates even if Action Controller
   # caching is enabled.
   config.action_mailer.perform_caching = false
 
+  # Mail confirmation
+  config.action_mailer.perform_deliveries = true
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
+  config.action_mailer.delivery_method = :smtp
+
+
+# config.action_mailer.default_url_options = { host: ENV["HOST"] } #here for local you can set localhost:3000 and for production you can set actual your host i.e website.com
+config.action_mailer.delivery_method = :smtp
+config.action_mailer.smtp_settings = {
+ address: "smtp.gmail.com",
+ port: 587,
+ domain: "website.com",
+ user_name: "hagar.usama.smartera3s@gmail.com",
+ password: Rails.application.credentials.dig(:gmail, :password),
+ authentication: "plain",
+ enable_starttls_auto: true,
+ open_timeout: 5,
+ read_timeout: 5
+}
+
+# Allow console access from Docker container IPs
+# config.web_console.whitelisted_ips = [ "172.22.0.0/16", "52.30.75.236" ]
+config.web_console.whitelisted_ips = [ "0.0.0.0/0" ]
+
+# Allow ngrok hosts
+config.hosts << "17ba-154-183-17-153.ngrok-free.app"
+
+config.log_level = :debug
+
+  # Enable Action Mailer delivery method to send email in development environment.
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { host: "localhost:3000" }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
