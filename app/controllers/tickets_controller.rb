@@ -1,7 +1,7 @@
 class TicketsController < ApplicationController
   skip_before_action :authenticate_user!, only: [ :ticket_exists? ]
   before_action :authenticate_user!
-  before_action :set_ticket, only: [ :show, :update ]
+  before_action :set_ticket, only: [ :show, :update, :soft_delete ]
 
 
   ITEMS_PER_PAGE = 12
@@ -18,8 +18,9 @@ class TicketsController < ApplicationController
       @tickets = Ticket.page(params[:page]).per(ITEMS_PER_PAGE)
     else
       # Regular users see only their non-deleted tickets
-      # TODO: add paging here
-      @tickets = current_user.tickets.where(deleted_at: nil).page(params[:page]).per(ITEMS_PER_PAGE)
+      # @tickets = current_user.tickets.where(deleted_at: nil).page(params[:page]).per(ITEMS_PER_PAGE)
+      @tickets = current_user.tickets.page(params[:page]).per(ITEMS_PER_PAGE)
+
     end
   end
 
@@ -29,6 +30,20 @@ class TicketsController < ApplicationController
   def update
     if @ticket.update(deleted_at: Time.current)
       flash[:notice] = "Ticket successfully marked as deleted."
+      redirect_to tickets_path
+    else
+      flash[:alert] = "Failed to mark ticket as deleted."
+      render :show
+    end
+  end
+
+  def soft_delete
+    if @ticket.update(deleted_at: Time.current)
+      flash[:notice] = "Ticket successfully marked as deleted."
+      # flash[:notice] = "Ticket has been successfully created."
+      # flash[:alert] = "An error occurred while creating the ticket."
+      # flash[:error] = "Ticket could not be found."
+      # flash[:success] = "Action was successful!"
       redirect_to tickets_path
     else
       flash[:alert] = "Failed to mark ticket as deleted."

@@ -131,3 +131,28 @@
     background-color: #f0f0f0;
   }
   
+
+ /* delete button */
+.btn-delete-form {
+    display: inline;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .btn-danger:hover {
+    background-color: #c82333;
+  }
+
+  /* body {
+    background-color: yellow;
+  }
+   */
+  body .flash-message {
+    background-color: #ffcc00;
+  }

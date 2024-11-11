@@ -1,0 +1,48 @@
+#flash-notifications {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+  }
+  
+  .flash-message {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+  }
+  
+  .flash-message.success {
+    background-color: #4caf50; /* Green for success */
+  }
+  
+  .flash-message.alert {
+    background-color: #ff9800; /* Orange for alert */
+  }
+  
+  .flash-message.error {
+    background-color: #f44336; /* Red for error */
+  }
+  
+  .flash-message.info {
+    background-color: #2196f3; /* Blue for info */
+  }
+  
+  .flash-message i {
+    margin-right: 10px;
+  }
+  
+  .flash-message .close-btn {
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+  }
+  

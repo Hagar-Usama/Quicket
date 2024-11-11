@@ -1,6 +1,8 @@
-<h1>Tickets</h1>
+<%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+<%= stylesheet_link_tag "flash_notifications", "data-turbo-track": "reload" %>
 
-<%= button_to 'Fetch Tickets', fetch_tickets_tickets_path, method: :post, class: 'btn btn-primary' %>
+
+<h1>Your Tickets</h1>
 
 <% if @tickets.any? %>
   <div class="ticket-cards-container">
@@ -8,23 +10,20 @@
       <div class="ticket-card">
         <%= link_to ticket_path(ticket), class: 'ticket-card-link' do %>
           <div class="card-content">
-            <h3>ID: <%= ticket.id %></h3>
+            <h3>Ticket ID: <%= ticket.id %></h3>
             <p><strong>Name:</strong> <%= ticket.name %></p>
             <p><strong>Email:</strong> <%= ticket.email %></p>
             <p><strong>Status:</strong> <%= ticket.state %></p>
           </div>
         <% end %>
+        <%= form_with url: soft_delete_ticket_path(ticket), method: :put, data: { confirm: 'Are you sure you want to delete this ticket?' }, class: 'btn-delete-form' do %>
+  <%= button_tag 'Delete', type: 'submit', class: 'btn btn-danger' %>
+<% end %>
       </div>
     <% end %>
   </div>
 
-  <!-- Add pagination controls -->
   <%= paginate @tickets %>
 <% else %>
   <p>No tickets found.</p>
-<% end %>
-
-<!-- Notification for role confirmation -->
-<% if flash[:role_notice] %>
-  <div class="notice"><%= flash[:role_notice] %></div>
 <% end %>

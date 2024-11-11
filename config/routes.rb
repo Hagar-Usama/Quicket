@@ -26,10 +26,14 @@ Rails.application.routes.draw do
   }
 
   # Routes for tickets
-  resources :tickets, only: [ :index, :show, :update ] do
+  resources :tickets, only: [ :index, :show, :update, :soft_delete ] do
     collection do
       post :fetch_tickets
       get :ticket_exists
+    end
+
+    member do
+      put :soft_delete
     end
   end
 
