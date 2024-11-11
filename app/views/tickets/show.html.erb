@@ -1,2 +1,10 @@
-<h1>Tickets#show</h1>
-<p>Find me in app/views/tickets/show.html.erb</p>
+<h2>Ticket Details</h2>
+
+<div class="ticket-details">
+  <p><strong>ID:</strong> <%= @ticket.id %></p>
+  <p><strong>Name:</strong> <%= @ticket.name %></p>
+  <p><strong>Email:</strong> <%= @ticket.email %></p>
+  <p><strong>Phone Number:</strong> <%= @ticket.phone_number %></p>
+</div>
+
+<%= link_to 'Back to Tickets', tickets_path, class: 'btn btn-secondary' %>

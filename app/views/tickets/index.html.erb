@@ -1,40 +1,22 @@
 <h1>Tickets</h1>
-<p>Find me in app/views/tickets/index.html.erb</p>
 
 <%= button_to 'Fetch Tickets', fetch_tickets_tickets_path, method: :post, class: 'btn btn-primary' %>
 
 <% if @tickets.any? %>
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>State</th>
-        <% if current_user.admin? %>
-          <th>Actions</th>
+  <div class="ticket-cards-container">
+    <% @tickets.each do |ticket| %>
+      <div class="ticket-card">
+        <%= link_to ticket_path(ticket), class: 'ticket-card-link' do %>
+          <div class="card-content">
+            <h3>ID: <%= ticket.id %></h3>
+            <p><strong>Name:</strong> <%= ticket.name %></p>
+            <p><strong>Email:</strong> <%= ticket.email %></p>
+            <p><strong>Status:</strong> <%= ticket.state %></p>
+          </div>
         <% end %>
-      </tr>
-    </thead>
-    <tbody>
-      <% @tickets.each do |ticket| %>
-        <tr>
-          <td><%= ticket.id %></td>
-          <td><%= ticket.name %></td> 
-          <td><%= ticket.email %></td>
-          <td><%= ticket.state %></td>
-          <% if current_user.admin? %>
-            <td>
-              <%# <%= link_to 'Edit', edit_ticket_path(ticket) |  %> 
-              <%= link_to 'Delete', ticket_path(ticket), method: :delete, data: { confirm: 'Are you sure?' } %>
-            </td>
-          <% end %>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-
+      </div>
+    <% end %>
+  </div>
 <% else %>
   <p>No tickets found.</p>
 <% end %>

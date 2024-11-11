@@ -13,3 +13,74 @@
  *= require_tree .
  *= require_self
  */
+
+ .ticket-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .ticket-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    width: 100%;
+    max-width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+  }
+  
+  .ticket-card:hover {
+    transform: scale(1.02);
+  }
+  
+  .ticket-card-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  
+  .ticket-details {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    max-width: 400px;
+    margin: 1rem auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+  }
+  
+  .ticket-details p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+  }
+  
+  .ticket-details p strong {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .ticket-details h2 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .btn.btn-secondary {
+    display: block;
+    margin: 1rem auto;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #fff;
+    background-color: #6c757d;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+  
+  .btn.btn-secondary:hover {
+    background-color: #5a6268;
+    color: #fff;
+    text-decoration: none;
+  }
+  
