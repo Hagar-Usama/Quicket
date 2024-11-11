@@ -12,7 +12,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     if ticket_service_response[:exists]
       # bring all local tickets to user and assign it to the user
-      tickets = Ticket.where(email: email, user_id: nil)
+      tickets = Ticket.where(email: email)
       if tickets.any?
         ActiveRecord::Base.transaction do
           super do |user|

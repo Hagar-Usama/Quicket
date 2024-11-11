@@ -17,6 +17,9 @@
       </div>
     <% end %>
   </div>
+
+  <!-- Add pagination controls -->
+  <%= paginate @tickets %>
 <% else %>
   <p>No tickets found.</p>
 <% end %>

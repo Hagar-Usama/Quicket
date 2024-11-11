@@ -21,6 +21,9 @@ gem "jbuilder"
 
 gem "devise"
 gem "httparty"
+gem "sendgrid-ruby"
+gem "kaminari"
+
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -48,8 +51,8 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   # debugging
-  gem "debase", "~> 0.2.1"
-  gem "ruby-debug-ide"
+  # gem "debase", "~> 0.2.5.beta2", require: false
+  # gem "ruby-debug-ide"
 end
 
 group :development do

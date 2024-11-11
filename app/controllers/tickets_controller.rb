@@ -3,6 +3,8 @@ class TicketsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_ticket, only: [ :show, :update ]
 
+
+  ITEMS_PER_PAGE = 12
   def ticket_exists?
     email = params[:email]
     exists = Ticket.exists?(email: email)
@@ -12,10 +14,12 @@ class TicketsController < ApplicationController
   def index
     if current_user.admin?
       # Admins see all tickets, even those marked as deleted
-      @tickets = Ticket.all
+      # @tickets = Ticket.all
+      @tickets = Ticket.page(params[:page]).per(ITEMS_PER_PAGE)
     else
       # Regular users see only their non-deleted tickets
-      @tickets = current_user.tickets.where(deleted_at: nil)
+      # TODO: add paging here
+      @tickets = current_user.tickets.where(deleted_at: nil).page(params[:page]).per(ITEMS_PER_PAGE)
     end
   end
 
