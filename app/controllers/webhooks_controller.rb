@@ -10,8 +10,10 @@ class WebhooksController < ApplicationController
     # Verify the HMAC signature
     if valid_signature?(request.headers["Tito-Signature"], request.body.read)
       if payload["_type"] == "ticket"
-        debugger
-        TicketService.save_ticket(payload, 1) # TODO: fix user_id
+        # debugger
+        # fetch users whose email matches the ticket's email
+        user = User.find_by(email: payload["email"])
+        TicketService.save_ticket(payload, user.id)
       end
 
       head :ok
