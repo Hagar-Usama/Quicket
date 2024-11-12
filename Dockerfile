@@ -9,25 +9,54 @@ WORKDIR /rails
 
 # Install base packages
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+   apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client && \
+   rm -rf /var/lib/apt/lists /var/cache/apt/archives
+    
+  
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y \
+    build-essential \
+    libpq-dev \
+    libssl-dev \
+    zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
+  
+  # Install dependencies required for gem installations and native extensions
+# RUN apt-get update -qq && apt-get install -y \
+#   build-essential \
+#   libpq-dev \
+#   libsqlite3-dev \
+#   libssl-dev \
+#   libreadline-dev \
+#   zlib1g-dev \
+#   libyaml-dev \
+#   libffi-dev \
+#   libgmp-dev \
+#   && rm -rf /var/lib/apt/lists/*
+#  RUN rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Set development environment
 ENV RAILS_ENV="development" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="production"
 
+ENV LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8
+
 # Throw-away build stage to reduce size of final image
 FROM base AS build
 
-# Install packages needed to build gems
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libpq-dev pkg-config && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
-RUN bundle install
+# RUN gem install bundler -v '2.5.22' && bundle _2.5.22_ install
+# RUN bundle install 
+RUN gem install bundler -v '2.5.22'
+# RUN gem install debase -v '0.2.6'
+# RUN gem install ruby-debug-ide -v '0.7.3'
+RUN bundle install 
+
+RUN echo "alias rails='./bin/rails'" >> ~/.bashrc
 
 # Copy application code
 COPY . .
