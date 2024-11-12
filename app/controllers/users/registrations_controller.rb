@@ -3,6 +3,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
+  after_action :perform_post_registration_tasks, only: [ :create ]
 
   # POST /resource
   def create
@@ -18,6 +19,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
           super do |user|
             # Attach all tickets to the new user
             user.tickets << tickets
+            first_ticket = tickets.first
+            user.name = first_ticket.name if first_ticket&.name
             if user.valid?
               user.save!
               Rails.logger.info("Successfully attached #{tickets.size} tickets to user #{user.id}")
@@ -59,6 +62,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # Define permitted parameters for sign up
   def sign_up_params
     params.require(:user).permit(:email, :password, :password_confirmation)
+  end
+
+  def perform_post_registration_tasks
+    Rails.logger.info("[Registration Controller], fetching tickets")
+    TicketService.fetch_and_save_tickets
   end
 
   # GET /resource/sign_up
