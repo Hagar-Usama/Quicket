@@ -18,6 +18,28 @@
   </head>
 
   <body>
+
+    <div class="navbar">
+  <ul class="tabs">
+    <li><%= link_to 'Tickets', tickets_path, class: "tab-link" %></li>
+
+    <% if user_signed_in? && !current_user.admin? %>
+      <li><%= link_to 'Profile', profile_path, class: "tab-link" %></li>
+    <% end %>
+
+    <% unless user_signed_in? %>
+      <li><%= link_to 'Sign In', new_user_session_path, class: "tab-link" %></li>
+      <li><%= link_to 'Sign Up', new_user_registration_path, class: "tab-link" %></li>
+    <% end %>
+
+    <% if user_signed_in? %>
+      <li><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "tab-link" %></li>
+      <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "tab-link"  %>
+
+    <% end %>
+  </ul>
+</div>
+
     <!-- Flash notifications -->
     <div id="flash-notifications"></div>
 

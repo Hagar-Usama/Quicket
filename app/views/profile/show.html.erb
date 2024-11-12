@@ -1,0 +1,16 @@
+<!-- app/views/profile/show.html.erb -->
+<h1>Your Profile</h1>
+
+<p><strong>Email:</strong> <%= @user.email %></p>
+<p><strong>Name:</strong> <%= @user.name %></p>
+
+<h3>Your Tickets</h3>
+<ul>
+  <% @tickets.each do |ticket| %>
+    <li>
+      Ticket ID: <%= ticket.id %>, State: <%= ticket.state %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to 'Edit Profile', edit_user_registration_path %>
