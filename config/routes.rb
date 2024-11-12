@@ -1,4 +1,6 @@
 # Rails.application.routes.draw do
+# get "users/show"
+# get "admin/dashboard"
 # get "tickets/index"
 # get "tickets/show"
 # get "tickets/update"
@@ -17,16 +19,21 @@
 #   # root "posts#index"
 # end
 
+# config/routes.rb
 Rails.application.routes.draw do
   # Devise routes for user authentication
   devise_for :users, controllers: {
     sessions: "users/sessions",
     registrations: "users/registrations"
-
   }
 
+  ## Profile route
+  authenticate :user do
+    get "profile", to: "profile#show", as: :profile
+  end
+
   # Routes for tickets
-  resources :tickets, only: [ :index, :show, :update, :soft_delete ] do
+  resources :tickets, only: [ :index, :show, :update ] do
     collection do
       post :fetch_tickets
       get :ticket_exists

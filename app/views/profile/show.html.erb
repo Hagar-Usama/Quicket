@@ -1,16 +1,25 @@
-<!-- app/views/profile/show.html.erb -->
-<h1>Your Profile</h1>
+<h1 class="profile-title">Your Profile</h1>
 
-<p><strong>Email:</strong> <%= @user.email %></p>
-<p><strong>Name:</strong> <%= @user.name %></p>
+<div class="profile-info">
+  <p><strong>Email:</strong> <%= @user.email %></p>
+  <p><strong>Name:</strong> <%= @user.name %></p>
+</div>
 
-<h3>Your Tickets</h3>
-<ul>
+<% if user_signed_in? %>
+  <% if current_user.admin? %>
+    <h3 class="tickets-title">Admin Dashboard - Tickets</h3>
+  <% else %>
+    <h3 class="tickets-title">Your Tickets</h3>
+  <% end %>
+<% end %>
+
+<ul class="ticket-list">
   <% @tickets.each do |ticket| %>
-    <li>
-      Ticket ID: <%= ticket.id %>, State: <%= ticket.state %>
+    <li class="ticket-item">
+      <span class="ticket-id">Ticket ID: <%= ticket.id %></span>
+      <span class="ticket-state">State: <%= ticket.state %></span>
     </li>
   <% end %>
 </ul>
 
-<%= link_to 'Edit Profile', edit_user_registration_path %>
+<%= link_to 'Edit Profile', edit_user_registration_path, class: 'edit-profile-link' %>

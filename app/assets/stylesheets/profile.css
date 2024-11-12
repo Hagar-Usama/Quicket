@@ -1,0 +1,67 @@
+/* Profile page styling */
+.profile-title {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .profile-info {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-info p {
+    margin: 10px 0;
+  }
+  
+  .tickets-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #444;
+    margin-top: 30px;
+  }
+  
+  .ticket-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+  
+  .ticket-item {
+    font-size: 1.1em;
+    background-color: #f4f4f4;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ticket-id, .ticket-state {
+    display: block;
+    margin: 5px 0;
+  }
+  
+  .edit-profile-link {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 1.1em;
+    color: #007bff;
+    text-decoration: none;
+    padding: 10px;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    background-color: #f7f7f7;
+  }
+  
+  .edit-profile-link:hover {
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+  }
+  
