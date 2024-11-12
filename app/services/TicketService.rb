@@ -70,7 +70,8 @@ class TicketService
     def self.save_ticket(ticket_data)
       user = User.find_by(email: ticket_data["email"])
       ticket = Ticket.unscoped.find_by(id: ticket_data["id"])
-      return if ticket.deleted_at.present? # Skip deleted tickets
+      return if ticket && ticket.deleted_at.present? # Skip deleted tickets
+      ticket ||= Ticket.new(id: ticket_data["id"])
       ticket.user_id = user.id if user
 
       ticket.assign_attributes(

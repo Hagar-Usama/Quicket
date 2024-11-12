@@ -30,7 +30,7 @@ class WebhooksController < ApplicationController
 
 
   def valid_signature?(tito_signature, raw_payload)
-    key = Rails.application.credentials.dig(:tito, :security_secret) # Get your security token from credentials
+    key = Rails.application.credentials.dig(:tito, :webhook_secret) # Get your security token from credentials
     hash = OpenSSL::Digest.new("sha256")
     expected_signature = Base64.encode64(OpenSSL::HMAC.digest(hash, key, raw_payload)).strip
     ActiveSupport::SecurityUtils.secure_compare(expected_signature, tito_signature)
