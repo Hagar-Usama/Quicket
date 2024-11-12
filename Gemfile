@@ -24,6 +24,8 @@ gem "httparty"
 gem "sendgrid-ruby"
 gem "kaminari"
 gem "rufus-scheduler"
+gem "jsbundling-rails"
+
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -53,6 +55,8 @@ group :development, :test do
   # debugging
   # gem "debase", "~> 0.2.5.beta2", require: false
   # gem "ruby-debug-ide"
+  # gem "rswag"
+  gem "dotenv"
 end
 
 group :development do

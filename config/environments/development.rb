@@ -43,18 +43,14 @@ Rails.application.configure do
 
   # Mail confirmation
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
+  config.action_mailer.default_url_options = { host: ENV["TUNNEL_HOST"] }
   config.action_mailer.delivery_method = :smtp
-
-
-# config.action_mailer.default_url_options = { host: ENV["HOST"] } #here for local you can set localhost:3000 and for production you can set actual your host i.e website.com
-config.action_mailer.delivery_method = :smtp
 config.action_mailer.smtp_settings = {
  address: "smtp.gmail.com",
  port: 587,
- domain: "website.com",
- user_name: "hagar.usama.smartera3s@gmail.com",
- password: Rails.application.credentials.dig(:gmail, :password),
+ domain: "quicket.app",
+ user_name: ENV["MAILER_EMAIL"],
+ password: Rails.application.credentials.dig(:gmail, :app_key),
  authentication: "plain",
  enable_starttls_auto: true,
  open_timeout: 5,
@@ -62,18 +58,16 @@ config.action_mailer.smtp_settings = {
 }
 
 # Allow console access from Docker container IPs
-# config.web_console.whitelisted_ips = [ "172.22.0.0/16", "52.30.75.236" ]
-config.web_console.whitelisted_ips = [ "0.0.0.0/0" ]
+config.web_console.whitelisted_ips = [ "172.22.0.0/16", ENV["TUNNEL_HOST_API"] ]
+# config.web_console.whitelisted_ips = [ "0.0.0.0/0" ]
 
 # Allow ngrok hosts
-config.hosts << "17ba-154-183-17-153.ngrok-free.app"
+# config.hosts << "17ba-154-183-17-153.ngrok-free.app"
 
+# Allow tunnel host
+config.hosts << ENV["TUNNEL_HOST"]
 config.log_level = :debug
 
-  # Enable Action Mailer delivery method to send email in development environment.
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.default_url_options = { host: "localhost:3000" }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
