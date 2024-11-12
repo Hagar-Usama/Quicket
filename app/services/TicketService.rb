@@ -3,7 +3,7 @@ class TicketService
     include HTTParty
     base_uri "https://api.tito.io/v3/hagar-usama/delta-spectres"
 
-    def self.fetch_and_save_tickets(user)
+    def self.fetch_and_save_tickets
       Rails.logger.error("[TicketService] fetching tickets ...")
 
       token = Rails.application.credentials.dig(:api, :token)
@@ -14,13 +14,24 @@ class TicketService
         response = get("/tickets?page[number]=#{page}&page[size]=#{per_page}",
                        headers: { "Authorization" => "Token token=#{token}" })
 
-        if response.success?
+        # rate limit check
+        if response.code == 429
+          retry_after = response.headers["Retry-After"].to_i
+          retry_after = retry_after.zero? ? 10 : retry_after
+
+          Rails.logger.warn("[TicketService] Rate limited. Retrying after #{retry_after} seconds...")
+          sleep(retry_after)
+          next
+
+        # Check if request was successful
+        elsif response.success?
           tickets = response.parsed_response["tickets"]
           Rails.logger.info("Page #{page} - Fetched #{tickets.size} tickets.")
 
           # Save the tickets
           tickets.each do |ticket_data|
-            save_ticket(ticket_data, user.id)
+            # fetch admin Id
+            save_ticket(ticket_data, 1)
           end
 
           # Check if there is a next page
@@ -29,12 +40,14 @@ class TicketService
 
           break unless next_page
           page += 1
+
         else
           Rails.logger.error("[TicketService] Failed to fetch tickets: #{response.code} - #{response.message}")
           break
         end
       end
     end
+
 
     def self.ticket_exists?(email)
       token = Rails.application.credentials.dig(:api, :token)

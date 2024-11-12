@@ -23,7 +23,7 @@ gem "devise"
 gem "httparty"
 gem "sendgrid-ruby"
 gem "kaminari"
-
+gem "rufus-scheduler"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
