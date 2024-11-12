@@ -13,6 +13,8 @@ class WebhooksController < ApplicationController
         # debugger
         # fetch users whose email matches the ticket's email
         TicketService.save_ticket(payload)
+        ActionCable.server.broadcast("webhook_updates", { message: "Data refreshed!", payload: payload })
+
       end
 
       head :ok

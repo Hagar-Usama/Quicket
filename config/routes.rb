@@ -1,4 +1,6 @@
+# mount ActionCable.server => "/cable"
 # Rails.application.routes.draw do
+# mount Rswag::Api::Engine => "/api-docs"
 # get "users/show"
 # get "admin/dashboard"
 # get "tickets/index"
@@ -46,6 +48,9 @@ Rails.application.routes.draw do
 
   # Webhook route
   post "webhooks/tito", to: "webhooks#tito"
+
+  # post "fetch_tickets", to: "tickets#fetch_tickets"
+
 
   # Root route
   root to: "tickets#index"

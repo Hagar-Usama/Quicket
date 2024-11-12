@@ -58,15 +58,16 @@ config.action_mailer.smtp_settings = {
 }
 
 # Allow console access from Docker container IPs
-config.web_console.whitelisted_ips = [ "172.22.0.0/16", ENV["TUNNEL_HOST_API"] ]
+config.web_console.whitelisted_ips = [ "172.22.0.0/16", ENV["TUNNEL_HOST_IP"] ]
 # config.web_console.whitelisted_ips = [ "0.0.0.0/0" ]
 
-# Allow ngrok hosts
-# config.hosts << "17ba-154-183-17-153.ngrok-free.app"
 
 # Allow tunnel host
 config.hosts << ENV["TUNNEL_HOST"]
 config.log_level = :debug
+
+config.action_cable.url = "ws://" + ENV["TUNNEL_HOST"] + "/cable"
+config.action_cable.allowed_request_origins = [ ENV["TUNNEL_HOST"] ]
 
 
   # Print deprecation notices to the Rails logger.

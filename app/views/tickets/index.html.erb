@@ -2,7 +2,16 @@
 <%= stylesheet_link_tag "flash_notifications", "data-turbo-track": "reload" %>
 
 
-<h1>Your Tickets</h1>
+<% if user_signed_in? %>
+  <% if current_user.admin? %>
+    <h1>Tickets</h1>
+  <% else %>
+    <h1>Your Tickets</h1>
+  <% end %>
+<% end %>
+
+<%# <%= button_to "Fetch Tickets", fetch_tickets_path, method: :post, class: "btn btn-primary" %>
+
 
 <% if @tickets.any? %>
   <div class="ticket-cards-container">

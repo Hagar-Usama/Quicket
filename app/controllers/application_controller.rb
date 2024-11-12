@@ -15,7 +15,6 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    flash[:role_notice] = "You are signed in as #{resource.role.humanize}."
-    tickets_path
+      tickets_path
   end
 end

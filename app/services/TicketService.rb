@@ -1,7 +1,9 @@
 
 class TicketService
     include HTTParty
-    base_uri "https://api.tito.io/v3/hagar-usama/delta-spectres"
+    # base_uri "https://api.tito.io/v3/hagar-usama/delta-spectres"
+    base_uri "#{ENV['TITO_API_BASE']}/#{ENV['TITO_ACCOUNT_SLUG']}/#{ENV['TITO_EVENT_SLUG']}"
+
 
     def self.fetch_and_save_tickets
       Rails.logger.error("[TicketService] fetching tickets ...")
