@@ -12,8 +12,7 @@ class WebhooksController < ApplicationController
       if payload["_type"] == "ticket"
         # debugger
         # fetch users whose email matches the ticket's email
-        user = User.find_by(email: payload["email"])
-        TicketService.save_ticket(payload, user.id)
+        TicketService.save_ticket(payload)
       end
 
       head :ok

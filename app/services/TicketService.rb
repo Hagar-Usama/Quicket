@@ -30,8 +30,7 @@ class TicketService
 
           # Save the tickets
           tickets.each do |ticket_data|
-            # fetch admin Id
-            save_ticket(ticket_data, 1)
+            save_ticket(ticket_data)
           end
 
           # Check if there is a next page
@@ -68,10 +67,10 @@ class TicketService
       end
     end
 
-    def self.save_ticket(ticket_data, user_id)
-      ## TODO: get back to this, invalid user_id
+    def self.save_ticket(ticket_data)
+      user = User.find_by(email: ticket_data["email"])
       ticket = Ticket.find_or_initialize_by(id: ticket_data["id"]) do |t|
-        t.user_id = user_id
+        t.user_id = user_id if user
       end
 
       ticket.assign_attributes(
