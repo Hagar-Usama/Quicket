@@ -160,37 +160,46 @@
 
   /* navbar style */
 .navbar {
-    background-color: #333;
-    color: white;
-    padding: 10px;
-  }
-  
-  .tabs {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .tabs li {
-    margin-right: 20px;
-  }
-  
-  .tabs .tab-link {
-    color: white;
-    text-decoration: none;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  .tabs .tab-link:hover {
-    background-color: #555;
-  }
-  
-  .tabs .tab-link.active {
-    background-color: #007bff;
-    color: white;
-  }
+  background-color: #333;
+  padding: 10px;
+}
+
+/* Style for the list of tabs */
+.tabs {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  padding: 0;
+  margin: 0;
+}
+
+/* Style for each tab button */
+.tab-button {
+  background: none;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  text-transform: uppercase;
+  transition: background-color 0.3s;
+}
+
+.tab-button:hover {
+  background-color: #555;
+}
+
+.tab-button:focus {
+  outline: none;
+  background-color: #666;
+}
+
+/* Add specific styling for an active button if needed */
+.tab-button.active {
+  font-weight: bold;
+  color: #ffd700;
+}
+
 
   /* Example styles for profile page */
 .profile-info {
@@ -216,3 +225,4 @@
     background-color: #f4f4f4;
   }
   
+

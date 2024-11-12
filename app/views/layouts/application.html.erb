@@ -15,27 +15,27 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
+
   </head>
 
   <body>
 
-    <div class="navbar">
+<div class="navbar">
   <ul class="tabs">
-    <li><%= link_to 'Tickets', tickets_path, class: "tab-link" %></li>
+    <li><%= button_to 'Tickets', tickets_path, method: :get, class: "tab-button" %></li>
 
     <% if user_signed_in? && !current_user.admin? %>
-      <li><%= link_to 'Profile', profile_path, class: "tab-link" %></li>
+      <li><%= button_to 'Profile', profile_path, method: :get, class: "tab-button" %></li>
     <% end %>
 
     <% unless user_signed_in? %>
-      <li><%= link_to 'Sign In', new_user_session_path, class: "tab-link" %></li>
-      <li><%= link_to 'Sign Up', new_user_registration_path, class: "tab-link" %></li>
+      <li><%= button_to 'Sign In', new_user_session_path, method: :get, class: "tab-button" %></li>
+      <li><%= button_to 'Sign Up', new_user_registration_path, method: :get, class: "tab-button" %></li>
     <% end %>
 
     <% if user_signed_in? %>
-      <li><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "tab-link" %></li>
-      <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "tab-link"  %>
-
+      <li><%= button_to 'Logout', destroy_user_session_path, method: :delete, class: "tab-button" %></li>
     <% end %>
   </ul>
 </div>
@@ -53,25 +53,6 @@
 
     <%= yield %> 
 
-    <!-- User signed-in links -->
-    <ul>
-      <% if user_signed_in? %>
-        <li><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
-        <%= button_to "Sign Out", destroy_user_session_path, method: :delete %>
-        
-        <!-- Common link for both admin and regular users -->
-        <h1>Tickets</h1>
-        <li><%= link_to 'My Tickets', tickets_path %></li>
-
-        <!-- Display a notification about the user's role -->
-        <% if flash[:role_notice] %>
-          <p class="notice"><%= flash[:role_notice] %></p>
-        <% end %>
-      <% else %>
-        <li><%= link_to 'Login', new_user_session_path %></li>
-        <li><%= link_to 'Sign Up', new_user_registration_path %></li>
-      <% end %>
-    </ul>
 
   </body>
 </html>
