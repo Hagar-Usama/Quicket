@@ -42,3 +42,7 @@ config/credentials.yml.enc
 !/app/assets/builds/.keep
 
 /node_modules
+.devcontainer/devcontainer.json
+.devcontainer/docker-compose.yml
+.vscode/launch.json
+.vscode/rdbg_autoattach.json
