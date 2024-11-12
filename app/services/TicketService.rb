@@ -5,19 +5,34 @@ class TicketService
 
     def self.fetch_and_save_tickets(user)
       Rails.logger.error("[TicketService] fetching tickets ...")
-      # debugger
 
       token = Rails.application.credentials.dig(:api, :token)
-      response = get("/tickets", headers: { "Authorization" => "Token token=#{token}" })
-      # debugger
-      if response.success?
-        Rails.logger.info("Successfully fetched tickets: #{response.parsed_response['tickets'].size} tickets found.")
-        tickets = response.parsed_response["tickets"]
-        tickets.each do |ticket_data|
-          save_ticket(ticket_data, user.id)
+      page = 1
+      per_page = 100
+
+      loop do
+        response = get("/tickets?page[number]=#{page}&page[size]=#{per_page}",
+                       headers: { "Authorization" => "Token token=#{token}" })
+
+        if response.success?
+          tickets = response.parsed_response["tickets"]
+          Rails.logger.info("Page #{page} - Fetched #{tickets.size} tickets.")
+
+          # Save the tickets
+          tickets.each do |ticket_data|
+            save_ticket(ticket_data, user.id)
+          end
+
+          # Check if there is a next page
+          meta = response.parsed_response["meta"]
+          next_page = meta["next_page"]
+
+          break unless next_page
+          page += 1
+        else
+          Rails.logger.error("[TicketService] Failed to fetch tickets: #{response.code} - #{response.message}")
+          break
         end
-      else
-        Rails.logger.error("[TicketService] Failed to fetch tickets: #{response.code} - #{response.message}")
       end
     end
 
@@ -43,7 +58,7 @@ class TicketService
     def self.save_ticket(ticket_data, user_id)
       ## TODO: get back to this, invalid user_id
       ticket = Ticket.find_or_initialize_by(id: ticket_data["id"]) do |t|
-        # t.user_id = user_id
+        t.user_id = user_id
       end
 
       ticket.assign_attributes(
