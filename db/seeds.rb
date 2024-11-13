@@ -17,11 +17,3 @@ User.create!(
   role: :admin,
   confirmed_at: Time.current
 )
-
-User.create!(
-  email: 'user@example.com',
-  password: 'password123',
-  password_confirmation: 'password123',
-  role: :regular,
-  confirmed_at: Time.current
-)

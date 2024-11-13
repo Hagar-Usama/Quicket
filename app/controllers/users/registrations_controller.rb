@@ -8,60 +8,41 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     email = sign_up_params[:email]
-    # Call the TicketService to check for an external ticket
     ticket_service_response = TicketService.ticket_exists?(email)
 
     if ticket_service_response[:exists]
-      # bring all local tickets to user and assign it to the user
       tickets = Ticket.where(email: email)
       if tickets.any?
         ActiveRecord::Base.transaction do
+          # Save the new user only if local tickets are present
           super do |user|
-            # Attach all tickets to the new user
-            user.tickets << tickets
-            first_ticket = tickets.first
-            user.name = first_ticket.name if first_ticket&.name
-            if user.valid?
+            if user.persisted?
+              user.tickets << tickets
+
+              first_ticket = tickets.first
+              user.name = first_ticket.name if first_ticket&.name
+
+              Rails.logger.info("User #{user.id} created and assigned #{tickets.size} tickets.")
+
+              # Display success message
+              flash[:notice] = "User #{user.id} successfully signed in with #{tickets.size} tickets."
               user.save!
-              Rails.logger.info("Successfully attached #{tickets.size} tickets to user #{user.id}")
-              # render a message
-              flash[:notice] = "Successfully user #{user.id} signed in"
             else
-              raise ActiveRecord::Rollback, "User creation failed, tickets not attached"
+              Rails.logger.warn("Failed to create user for email: #{email}.")
+              raise ActiveRecord::Rollback
             end
           end
         end
-      # else
-      #   # If no local tickets are found, save user with empty
-      #   redirect_to new_user_registration_path, alert: "No tickets found with this email. Please contact support or use a different email."
+      else
+        redirect_to new_user_registration_path, alert: "No local tickets found with this email. Please contact support or use a different email."
+        Rails.logger.warn("User registration attempt with no local tickets found for email: #{email}")
       end
-      
     else
-       # If no tickets are found, redirect with an error message
-       redirect_to new_user_registration_path, alert: "No tickets found with this email. Please contact support or use a different email."
+      redirect_to new_user_registration_path, alert: "No tickets found with this email. Please contact support or use a different email."
+      Rails.logger.warn("User registration attempt with no external tickets found for email: #{email}")
     end
   end
 
-
-
-  # def create
-  #   email = sign_up_params[:email]
-
-  #   # Find the ticket by email (this is done directly in the controller, no API calls)
-  #   ticket = Ticket.find_by(email: email)
-
-  #   if ticket
-  #     super do |user|
-  #       # user.id = ticket.user_id
-  #       user.save if user.valid?
-  #     end
-  #   else
-  #     # If no ticket is found, redirect with an error message
-  #     redirect_to new_user_registration_path, alert: "No ticket found with this email. Please contact support or use a different email."
-  #   end
-  # end
-
-  private
 
   # Define permitted parameters for sign up
   def sign_up_params

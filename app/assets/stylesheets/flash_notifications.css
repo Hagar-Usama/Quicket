@@ -4,6 +4,9 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: 9999;
+    background-color: transparent; 
+    border: none;                  
+    color: inherit;
   }
   
   .flash-message {
@@ -13,10 +16,13 @@
     margin: 10px 0;
     padding: 15px;
     border-radius: 5px;
-    color: white;
+    /* color: white; */
     font-weight: bold;
     opacity: 1;
     transition: opacity 0.5s ease;
+    background-color: transparent; 
+    border: none;                  
+    color: inherit;  
   }
   
   .flash-message.success {
