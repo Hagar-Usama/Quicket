@@ -1,14 +1,13 @@
 
 class TicketService
     include HTTParty
-    # base_uri "https://api.tito.io/v3/hagar-usama/delta-spectres"
     base_uri "#{ENV['TITO_API_BASE']}/#{ENV['TITO_ACCOUNT_SLUG']}/#{ENV['TITO_EVENT_SLUG']}"
 
 
     def self.fetch_and_save_tickets
       Rails.logger.error("[TicketService] fetching tickets ...")
 
-      token = Rails.application.credentials.dig(:api, :token)
+      token = ENV["TITO_TOKEN"]
       page = 1
       per_page = 100
 
@@ -51,7 +50,7 @@ class TicketService
 
 
     def self.ticket_exists?(email)
-      token = Rails.application.credentials.dig(:api, :token)
+      token = ENV["TITO_TOKEN"]
       response = get("/tickets", headers: { "Authorization" => "Token token=#{token}" }, query: { "search[emails][]" => email })
       if response.success?
         data = response.parsed_response
