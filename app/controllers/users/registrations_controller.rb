@@ -31,10 +31,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
             end
           end
         end
-      else
-        # If no tickets are found, redirect with an error message
-        redirect_to new_user_registration_path, alert: "No tickets found with this email. Please contact support or use a different email."
+      # else
+      #   # If no local tickets are found, save user with empty
+      #   redirect_to new_user_registration_path, alert: "No tickets found with this email. Please contact support or use a different email."
       end
+      
+    else
+       # If no tickets are found, redirect with an error message
+       redirect_to new_user_registration_path, alert: "No tickets found with this email. Please contact support or use a different email."
     end
   end
 

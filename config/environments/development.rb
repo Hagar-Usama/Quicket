@@ -50,7 +50,7 @@ config.action_mailer.smtp_settings = {
  port: 587,
  domain: "quicket.app",
  user_name: ENV["MAILER_EMAIL"],
- password: Rails.application.credentials.dig(:gmail, :app_key),
+ password: ENV["GMAIL_APP_KEY"],
  authentication: "plain",
  enable_starttls_auto: true,
  open_timeout: 5,
@@ -90,6 +90,8 @@ config.action_cable.allowed_request_origins = [ ENV["TUNNEL_HOST"] ]
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
+
+  # config.active_job.queue_adapter = :async
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
