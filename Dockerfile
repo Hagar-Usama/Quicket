@@ -49,14 +49,15 @@ FROM base AS build
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
-# RUN gem install bundler -v '2.5.22' && bundle _2.5.22_ install
 # RUN bundle install 
 RUN gem install bundler -v '2.5.22'
-# RUN gem install debase -v '0.2.6'
-# RUN gem install ruby-debug-ide -v '0.7.3'
+
 RUN bundle install 
 
-RUN echo "alias rails='./bin/rails'" >> ~/.bashrc
+
+# RUN echo "alias rails='./bin/rails'" >> ~/.bashrc
+RUN bundle exec rails db:migrate
+RUN bundle exec rails db:seed
 
 # Copy application code
 COPY . .
